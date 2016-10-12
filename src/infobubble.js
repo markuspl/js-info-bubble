@@ -891,15 +891,20 @@ InfoBubble.prototype.draw = function() {
     return;
   }
 
+  if(!this.pixelOffset
+      || !this.pixelOffset.constructor
+      || this.pixelOffset.constructor !== google.maps.Size){
+    this.pixelOffset = new google.maps.Size(0,0);
+  }
   // Adjust for the height of the info bubble
-  var top = pos.y - (height + arrowSize);
+  var top = pos.y - (height + arrowSize) + this.pixelOffset.height;
 
   if (anchorHeight) {
     // If there is an anchor then include the height
     top -= anchorHeight;
   }
 
-  var left = pos.x - (width * arrowPosition);
+  var left = pos.x - (width * arrowPosition) + this.pixelOffset.width;
 
   this.bubble_.style['top'] = this.px(top);
   this.bubble_.style['left'] = this.px(left);
